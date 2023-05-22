@@ -10,11 +10,11 @@ fi
 
 case $VERSION in
     stg)
-        TAG="fh-all.com/bengal:${VERSION}-stg"
+        TAG="fh-all.com/bengal-images:${VERSION}-stg"
         PROXY_ARG="--build-arg http_proxy=http://10.80.0.238:9999 --build-arg https_proxy=http://10.80.0.238:9999"
         ;;
     *)
-        TAG="fh-all.com/bengal:${VERSION}"
+        TAG="fh-all.com/bengal-images:${VERSION}"
         PROXY_ARG="--build-arg http_proxy=http://10.50.1.192:9999 --build-arg https_proxy=http://10.50.1.192:9999"
         ;;
 esac
