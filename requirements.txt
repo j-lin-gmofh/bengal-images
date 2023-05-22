@@ -1,0 +1,8 @@
+# these package isn't available for linux on anaconda
+Orange3-Associate==1.1.5
+QuantLib-Python==1.16.1
+bhtsne==0.1.9
+msoffcrypto-tool==4.10.1
+opencv-python==4.5.1.48
+workdays==1.4
+
