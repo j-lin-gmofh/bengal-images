@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.4
-ARG BASE_REPO="pytorch-notebook"
+ARG BASE_REPO=datascience-notebook
 ARG BASE_TAG="python-3.11"
 ARG BENGAL_VERSION="0.3.0"
 
 FROM ghcr.io/oracle/oraclelinux8-instantclient:21 as client
 
-FROM quay.io/jupyter/${BASE_REPO}:${BASE_TAG} as base
+FROM jupyter/${BASE_REPO}:${BASE_TAG} as base
 
 USER root
 
@@ -14,37 +14,32 @@ COPY --from=client /usr/lib/oracle /usr/lib/oracle
 COPY --from=client /etc/ld.so.conf.d/oracle-instantclient.conf /etc/ld.so.conf.d/oracle-instantclient.conf
 RUN ldconfig
 
-RUN apt-get update --yes \
-    && apt-get install --yes --no-install-recommends \
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
     # for cython: https://cython.readthedocs.io/en/latest/src/quickstart/install.html
     build-essential \
     # for latex labels
     cm-super \
     dvipng \
     # for matplotlib anim
-    ffmpeg \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    ffmpeg && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 USER ${NB_UID}
 
-# Update mamba to the latest version
-RUN mamba update mamba -c conda-forge
-
 # Install Python 3 packages
-RUN mamba install --quiet --yes -c conda-forge \
-    "blpapi=3.16.2" \
-    libta-lib \
-    ta-lib \
-    && mamba clean --all -f -y \
-    && fix-permissions "${CONDA_DIR}" \
-    && fix-permissions "/home/${NB_USER}"
+RUN mamba install --quiet --yes -c conda-forge -c pytorch \
+    "blpapi=3.16.2" && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 
 # install modules which do not have a conda package at the moment
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt --no-cache-dir
-COPY bengal-0.1.1-py3-none-any.whl /tmp/bengal-0.1.1-py3-none-any.whl
-RUN pip install /tmp/bengal-0.1.1-py3-none-any.whl --no-cache-dir
+COPY bengal-0.3.0-py3-none-any.whl /tmp/bengal.whl
+RUN pip install /tmp/bengal.whl --no-cache-dir
 
 
 # Install facets which does not have a pip or conda package at the moment
