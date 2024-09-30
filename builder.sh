@@ -8,7 +8,7 @@ if [ -z "$VERSION" ]
         exit 1
 fi
 
-TAG="fh-all.com/bengal-images:${VERSION}"
+TAG="stg-k8s-manager-server.stg.gmo.sec:30003/bengal/bengal:${VERSION}"
 PROXY_ARG="--build-arg http_proxy=http://10.50.1.192:9999 --build-arg https_proxy=http://10.50.1.192:9999"
 
 sudo docker build ${PROXY_ARG} -t ${TAG} .
