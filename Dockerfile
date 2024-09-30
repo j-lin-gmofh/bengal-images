@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 ARG BASE_REPO="pytorch-notebook"
-ARG BASE_TAG="python-3.10"
+ARG BASE_TAG="python-3.11"
 ARG BENGAL_VERSION="0.3.0"
 
 FROM ghcr.io/oracle/oraclelinux8-instantclient:21 as client
