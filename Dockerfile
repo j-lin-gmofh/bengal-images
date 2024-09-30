@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4
-ARG BASE_REPO=pytorch-notebook
+ARG BASE_REPO="pytorch-notebook"
 ARG BASE_TAG="python-3.10"
 ARG BENGAL_VERSION="0.3.0"
 
